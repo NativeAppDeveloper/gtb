@@ -9,6 +9,8 @@ import PredgeServaScreen from "./mastercomponent/pledgeSevaScreen";
 import VisitScanner from "./mastercomponent/visiScanner";
 import GalleryComponent from "./mastercomponent/Gallery";
 import BottomNavigation from "./layout/bottomNaviagtion";
+import Profile from "./mastercomponent/profile/profile";
+import EditProfile from "./mastercomponent/profile/editProfile";
 
 const App = () => {
   return (
@@ -22,7 +24,8 @@ const App = () => {
         <Route path="/PredgeServaScreen" element={<PredgeServaScreen />} />
         <Route path="/VisitScanner" element={<VisitScanner />} />
         <Route path="/GalleryComponent" element={<GalleryComponent />} />
-
+    <Route path="/Profile" element={<Profile />} />
+    <Route path="/EditProfile" element={<EditProfile />} />
 
       
       </Routes>

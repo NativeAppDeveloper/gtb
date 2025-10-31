@@ -1,41 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
+
+
+
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import GalleryFilter from "./gallery/galleryFilter";
+import PreviewImage from "./gallery/PreviewImage";
+
+const images = [
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+    "https://picsum.photos/200/300?image=1050",
+    //...
+    "https://picsum.photos/300/300?image=206",
+]
+
+
+
 
 const GalleryComponent = () => {
-    const [selectedLanguage, setSelectedLanguage] = useState('en');
-    const videoRef = useRef(null);
-    const languages = [
-        { code: 'en', label: 'English' },
-        { code: 'hi', label: 'ਹਿੰਦੀ' },
-        { code: 'pa', label: 'ਪੰਜਾਬੀ' },
-    ];
 
-    useEffect(() => {
-        const openCamera = async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: 'environment' // Use back camera if available
-                    }
-                });
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                }
-            } catch (error) {
-                console.error("Error accessing camera:", error);
-            }
-        };
+    const [selectedTab, setSelectedTab] = useState('photos');
 
-        openCamera();
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    }
 
-        // Cleanup function to stop the camera when component unmounts
-        return () => {
-            if (videoRef.current && videoRef.current.srcObject) {
-                const stream = videoRef.current.srcObject;
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-            }
-        };
-    }, []);
     return (
         <>
             <div className="max-w-md  mx-auto bg-no-repeat bg-cover min-h-screen " style={{ backgroundImage: 'url(/scannerbg.webp)' }}>
@@ -73,17 +79,49 @@ const GalleryComponent = () => {
 
                 </div>
                 <div className="mt-[5px]">
-                    <div className="">
+                    <div className="text-center ">
                         <h3 className="text-[32px] text-[#121B57] urbanist font-semibold">
                             Gallery
                         </h3>
                     </div>
                 </div>
 
+                <div className="flex justify-center gap-10  mt-3">
+                    <button className={twMerge("text-xl font-semibold", selectedTab === 'photos' ? 'text-[#121B57]' : 'text-[#121B57]/50')}>
+                        Photos
+                    </button>
+
+
+                    <button className={twMerge("text-xl font-semibold", selectedTab === 'videos' ? 'text-[#121B57]' : 'text-[#121B57]/50')}>   Videos</button>
+                </div>
+
+                <div className="bg-white/40 rounded-xl  h-11  flex justify-between px-6 w-[80%] mx-auto mt-3 items-center border border-white">
+                    <p>My Memory</p>
+                    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 11L6 6L1 1" stroke="#7F717F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                </div>
+
+                <div className="w-[80%] mx-auto mt-4">
+                <Masonry columnsCount={3} gutter="10px">
+                {images.map((image, i) => (
+                    <img
+                        className="rounded-xl"
+                        key={i}
+                        src={image}
+                        style={{width: "100%", display: "block"}}
+                    />
+                ))}
+            </Masonry>
+                </div>
+
 
 
 
             </div>
+{/* <GalleryFilter />  */}
+<PreviewImage />
         </>
     )
 }
